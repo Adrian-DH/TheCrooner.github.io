@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Crooner</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap');
+
+    body {
+      margin: 0;
+      font-family: 'Playfair Display', serif;
+      background-color: #fefcf7; /* eggshell white */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    header {
+      padding: 2rem;
+      text-align: center;
+    }
+    main {
+      max-width: 66%;
+      padding: 1rem;
+    }
+    footer {
+      margin-top: 2rem;
+      font-size: 0.9em;
+      color: #777;
+      text-align: center;
+    }
+    video, audio, img, iframe {
+      max-width: 100%;
+      margin: 1rem 0;
+      border-radius: 8px;
+    }
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+    .centered-img {
+      display: flex;
+      justify-content: center;
+      margin: 1.5rem 0;
+    }
+    .centered-img img {
+      width: 500px;
+      height: auto;
+      border-radius: 8px;
+      transform: rotate(270deg);
+    }
+    .centered-iframe {
+      display: flex;
+      justify-content: center;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>The Crooner</h1>
+  </header>
+
+  <main>
+    <div class="centered-img">
+      <img src="crooner.jpg" alt="Instrument photo">
+    </div>
+
+    <h2>About</h2>
+    <p>The Crooner is a digital instrument inspired by the style of singing known as crooning and builds off many of the aesthetic motifs associated with prominent crooning artists like Frank Sinatra and Nat King Cole. 
+      I was inspired to create an instrument that could capture the feeling and essence of listening to a recording of these artists with all of the textbook features of a 50s recording including dusty audio, changes in playback speed, and record scratches.
+      I found the feeling of holding and smoking a pipe to be interesting and evocative of similar feelings to listening to these recordings, so I repurposed a pipe that I acquired while traveling abroad in Prague to be the basis of my instrument. The Crooner is composed of a smoking pipe tricked out with different sensors to allow for note playing and pedal-like effects. 
+    </p> 
+    <div class="centered-iframe">
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/VsR5pnIACPc" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
+    </div>
+    <h2>Process</h2>
+    <p>The main mechanism for playing involves inhaling a pipe rhythmically, which meant I needed to find a way to convert breathing into sensor readings to be sent to my Arduino. I found an air pressure sensor on Amazon that was able to pick up on my breathing, but it often produced very inconsistent and incorrect readings, which made the Crooner ill-fitted for note playing.
+        I utilized a VST to convert sensor readings into MIDI notes that are synthesized into orchestral hymn noises. This did not sound great in practice and felt a little too far off my desired aesthetic, therefore I settled for the "Auto-Crooner" mode which allowed the user to affect playback parameters of a recording (I frequently used "Orange Colored Sky" by Nat King Cole). I also wanted to 
+        augment the aesthetic by adding toggleable buttons that control timbral features of music to really hone in on the crooning style. Because I found that playing specific notes was too hard given my poor sensor readings, a live performance of my own composition would be too difficult and I settled on practicing interesting ways to augment the track in "Auto-Crooner" mode.
+    </p>
+    <p>I used some tricks in Arduino to make the buttons work as toggles by effectively checking for a toggle variable and implementing some basic logic. The sensor readings are then sent to a Max patcher which applies 
+        a series of gating logic to toggle a bunch of VST plugins for the intended sound. Additionally, I used Max's groove object with a loop to play the recording of "Orange Colored Sky" along with other objects to increase playback speed and resonance when a strong blow is detected.
+        Lastly, I settled on using a MIDI-based approach for the non-"Auto-Crooner" mode that involved scaling the sensor input to MIDI values and synthesizing them with a series of VSTs.</p>
+    <div class="grid-container">
+        <img src="arduino.png" alt="Instrument photo">
+        <img src="maxpat.png" alt="Instrument photo">
+    </div>
+    <h2>How to Play</h2>
+    <p>To toggle "Auto-Crooner" mode, the user presses the black button, which resumes playback of the saved track. Otherwise, if the red button is not pressed, the Crooner will play notes that sound like orchestral hymns whenever the user inhales. 
+      When "Auto-Crooner" is activated, inhaling will increase the playback speed of the track and increase the volume. The white button toggles a chorus effect, which adds depth and sounds like the track was sung by many voices. 
+      Lastly, the red button toggles the "gramophone" pedal, which is a VST that adds record scratchiness and dustiness to the track and gives it a vintage sound.
+    </p>
+
+    <div class="grid-container">
+      <img src="crooner1.jpg" alt="Instrument photo">
+      <img src="crooner3.jpg" alt="Instrument photo">
+      <img src="crooner2.jpg" alt="Instrument photo">
+    </div>
+
+    <h2>Playing it</h2>
+    <p>Here is an excerpt of my demo</p>
+    <video controls>
+        <source src="croonerdemo.MP4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+  </main>
+
+  <footer>
+    &copy; 2025 Adrian Hoffer
+  </footer>
+</body>
+</html>
